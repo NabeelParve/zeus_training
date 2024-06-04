@@ -1,0 +1,43 @@
+body{
+    background:rgb(255,255,204);
+}
+
+h1{
+    background:brown;
+    color: rgb(255,255,204);
+    text-align: center;
+}
+p{
+    background: red;
+    position: relative;
+    top: -64px;
+    z-index: -1;
+}
+h3{
+    background: green;
+    color: rgb(255, 255, 204);
+}
+
+ol, ul{
+    color: red;
+}
+
+h4{
+    color: gray;
+}
+
+
+tbody{
+    background: rgb(204, 204, 204);
+}
+
+
+form{
+    justify-content: space-between;
+    padding: 5px;
+}
+
+#image{
+    border: 1px black;
+    border-style: dotted;
+}
