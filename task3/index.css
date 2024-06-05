@@ -1,0 +1,64 @@
+.container{
+    display: grid;
+    gap:2px;
+    grid-template-columns: 20vw auto auto;
+    grid-template-rows: 10vh 40vh 40vh 10vh;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+}
+
+#header{
+    grid-column-start: 1;
+    grid-column-end: 4;
+    text-align: center;
+    background: blue;
+    background: linear-gradient(135deg ,  rgb(135, 87, 247) ,rgb(146, 102, 250,0.7));
+    display : flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#sidebar{
+    grid-row-start: 2;
+    grid-row-end: 4;
+    text-align: center;
+    /* background: linear-gradient(45deg , rgb(14, 147, 170) , rgba(11, 247, 255, 0.8)); */
+    background: rgb(57, 178, 199);
+    display : flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#content1{
+    grid-area: 2 / 2 / 3 / 4;
+    text-align: center;
+
+}
+#content2{
+    grid-area: 3 / 2 / 4 / 3;
+    text-align: center;
+}
+
+#content3{
+    grid-area: 3 / 3 / 4 / 4;
+    text-align: center;
+}
+
+#footer{
+    text-align: center;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    background: linear-gradient(135deg , rgb(128, 77, 247) ,rgb(146, 102, 250,0.7));
+    display : flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content{
+    background: linear-gradient(135deg ,rgb(146, 102, 250),rgb(7, 133, 236) 70%,rgb(19, 160, 241),cyan 100%);
+    display : flex;
+    justify-content: center;
+    align-items: center;
+}
+
