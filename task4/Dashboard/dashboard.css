@@ -1,0 +1,33 @@
+@font-face {
+    font-family: myfont;
+    src: url(Quicksand\ font\ 1/) format('truetype');
+}
+
+nav{
+    background-image: url('./header\ pattern\ svg.svg');
+}
+
+.navbar-item{
+    color: rgb(1, 63, 1);
+}
+
+
+.icon-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.input-border{
+    border: none;
+    border-bottom: 1px solid grey;
+}
+
+.input-border:focus{
+    border: none;
+    border-bottom: 1px solid grey;
+}
+
+
+.cotainer{
+    border: 1px solid black;
+}

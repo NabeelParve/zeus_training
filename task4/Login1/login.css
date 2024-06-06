@@ -1,0 +1,91 @@
+
+@font-face {
+    font-family: quicksand;
+    src: url('./Quicksand\ font\ 1/') format('truetype');
+    }
+    
+body{
+    background: rgb(223, 223, 223);
+    font-family: quicksand;
+}
+
+.container{
+    background: white;
+    border-top: 5px solid rgb(16, 152, 243);
+    padding-top: 20px;
+    padding-bottom: 10px;
+    width: 500px;
+    padding-left: 10px;
+    position: absolute;
+    top: 45px;
+    left: 550px
+}
+
+.input-border{
+    border: none;
+    border-bottom: 1px solid grey;
+}
+
+.forgot{
+    font-size: 14px;
+    text-decoration: none;
+    margin-right: 15px;
+}
+.login{
+    color: black;
+    background: rgb(11, 150, 64);
+}
+
+.input-green{
+    accent-color: green;
+}
+
+.label-grey{
+    font-size: 10px;
+    color: grey;
+}
+
+.password-icon{
+color: green;
+position: relative;
+left : 420px;
+top: 23px;
+}
+
+nav{
+    width: 100vw;
+    background-image: url('header pattern svg.svg');
+}
+
+.aboutus{
+    width: 100%;
+    text-align: center;
+    color: green;
+    position: absolute;
+    bottom: 40px;
+}
+
+footer{
+    position : absolute;
+    bottom: 0;
+    width: 100vw;
+    margin: auto;
+    background: grey;
+    text-align: center;
+}
+
+
+@media only screen and (max-width: 600px) {
+    body{
+        font-size: 12px;
+    }
+
+    .container{
+        height: 400px;
+        width: 250px;
+    }
+
+    .row{
+        margin-top: 0px;
+    }
+}
