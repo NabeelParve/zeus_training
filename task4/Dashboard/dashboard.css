@@ -3,18 +3,25 @@
     src: url(Quicksand\ font\ 1/) format('truetype');
 }
 
-nav{
-    background-image: url('./header\ pattern\ svg.svg');
+body{
+    background : #eeeeee;
 }
 
-.navbar-item{
-    color: rgb(1, 63, 1);
+.navbar{
+    background-image: url('./header\ pattern\ svg.svg');
 }
 
 
 .icon-container{
-    display: flex;
+    display: flex !important;
     flex-direction: row;
+}
+
+.icon-list{
+    display: flex !important;
+    flex-direction: row;
+    list-style: none;
+    position: relative;
 }
 
 .input-border{
@@ -30,4 +37,69 @@ nav{
 
 .cotainer{
     border: 1px solid black;
+}
+
+.content{
+    margin-top: 80px ;
+}
+.course-card{
+    background:white;
+}
+
+.aboutus{
+    position: relative;
+    top : 30px;
+    width: 100%;
+    text-align: center;
+    color: green;
+}
+
+footer{
+    width: 100vw;
+    height: 30px;
+    align-items: center;
+    margin: auto;
+    background: grey;
+    text-align: center;
+    position: relative;
+    top: 40px;
+}
+.input-border{
+    background: none;
+    border: none;
+    border-bottom: 1px solid grey;
+}
+
+
+.navbar-item{
+    font-weight: bold;
+    color: rgb(11, 252, 3)  !important;
+}
+
+.active{
+    border-bottom:3px solid white;
+    color: white !important;
+
+}
+
+.filter-row{
+    margin-top: 10px;
+    margin: 20px;
+}
+
+
+.tabs{
+    height: 70px;
+    margin: 20px;
+    text-align: center;
+    background: rgb(91, 173, 91);
+}
+
+tab{
+    background: rgb(78, 155, 78);;
+    color: black;
+}
+
+.active-tab{
+    border-bottom: 3px solid black;
 }
