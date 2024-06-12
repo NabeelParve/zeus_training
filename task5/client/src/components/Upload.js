@@ -1,6 +1,10 @@
 import React from "react";
+import { useData } from "../contexts/dataContext";
+import { useLoading } from "../contexts/loadingContext";
 
-function Upload({ setData, setLoading }) {
+function Upload() {
+  const { setData } = useData();
+  const { setLoading } = useLoading();
   const handleUpload = (e) => {
     setLoading(true);
     e.preventDefault();
@@ -18,7 +22,14 @@ function Upload({ setData, setLoading }) {
     })
       .then((data) => data.json())
       .then((response) => {
-        setData((prev)=>({ ...prev , rows: response.data, page_no:1}));
+        setData((prev) => ({ ...prev, rows: response.data, page_no: 1 }));
+        setLoading(false);
+      })
+      .catch((err) => {
+        setData({
+          rows: [],
+          page_no: 1,
+        });
         setLoading(false);
       });
   };

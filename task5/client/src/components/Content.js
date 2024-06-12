@@ -1,8 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Spinner from "./Spinner";
+import { useData } from "../contexts/dataContext";
+import { useLoading } from "../contexts/loadingContext";
+import Table from "./Table";
+import Pagination from "./Pagination";
+import Searching from "./Searching";
+import { useSort } from "../contexts/sortContext";
 
-function Content({ data, loading, setData, setLoading }) {
-  useEffect(() => {}, [data]);
+function Content() {
+  const { data, setData } = useData();
+  const { loading, setLoading } = useLoading();
+  const {sort} = useSort()
 
   useEffect(() => {
     setLoading(true);
@@ -13,14 +21,19 @@ function Content({ data, loading, setData, setLoading }) {
       },
       body: JSON.stringify({
         page_no: 0,
+        sort : sort.sort,
+        search : sort.search
       }),
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data)
         setLoading(false);
         setData(data);
+      }).catch(err => {
+        console.log(err)
       });
-  }, []);
+  }, [sort,setData,setLoading]);
 
   return (
     <>
@@ -28,26 +41,7 @@ function Content({ data, loading, setData, setLoading }) {
         <>
           {!loading ? (
             <>
-              <table className="table align-text-center mx-2">
-                <thead>
-                  <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Address</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.rows?.map((row) => (
-                    <tr>
-                      <th scope="row">{row[0]}</th>
-                      <td>{row[1]}</td>
-                      <td>{row[2]}</td>
-                      <td>{row[3]}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <Searching /><Table /> <Pagination />
             </>
           ) : (
             <Spinner />

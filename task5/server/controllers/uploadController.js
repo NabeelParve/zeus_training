@@ -2,9 +2,9 @@ const path = require("path");
 const csv = require("csv-parser");
 const fs = require("fs");
 const insertData = require("../utils/insertData");
-const asyncHandler = require("express-async-handler");
+const expressAsyncHandler = require('express-async-handler')
 
-const uploadController = asyncHandler(async (req, res) => {
+const uploadController = expressAsyncHandler(async (req, res) => {
   let results = [];
   const { filename } = req.body;
 
