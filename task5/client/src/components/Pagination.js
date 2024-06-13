@@ -49,12 +49,12 @@ function Pagination() {
           </button>
         </li>
         <li className="page-item">
-          <button className="page-link" onClick={() => handlePagination(1)}>
+          <button className="page-link" onClick={() => handlePagination()}>
             {data.page_no + 1}
           </button>
         </li>
         <li className="page-item">
-          <button className="page-link" onClick={() => handlePagination(2)}>
+          <button className="page-link" onClick={() => handlePagination(1)}>
             {data.page_no + 2}
           </button>
         </li>

@@ -3,6 +3,7 @@ const csv = require("csv-parser");
 const fs = require("fs");
 const insertData = require("../utils/insertData");
 const expressAsyncHandler = require('express-async-handler')
+const db = require('../utils/database')
 
 const uploadController = expressAsyncHandler(async (req, res) => {
   let results = [];
@@ -31,11 +32,22 @@ const uploadController = expressAsyncHandler(async (req, res) => {
           message: "Your CSV contains invaild entries",
         });
       }
+
       insertData(results);
-    
-      return res.status(201).json({
-        data: results.slice(0, 20),
-      });
+
+      let query = `SELECT * FROM users limit 20`;
+      db.query(query, [], (err, results) => {
+        if (err) {
+          return res.status(400).json(err)
+        }
+        results = results.map(e => Object.values(e))
+
+
+        return res.json({
+          rows: results,
+          page_no: 1
+        })
+      })
     });
 });
 

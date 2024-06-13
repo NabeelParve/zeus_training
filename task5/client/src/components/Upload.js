@@ -1,13 +1,15 @@
 import React from "react";
 import { useData } from "../contexts/dataContext";
 import { useLoading } from "../contexts/loadingContext";
+import axios from "axios";
+
 
 function Upload() {
   const { setData } = useData();
   const { setLoading } = useLoading();
   const handleUpload = (e) => {
-    setLoading(true);
     e.preventDefault();
+    setLoading(true);
     const formData = new FormData();
     const name = document.getElementById("csvfile").files[0].name;
     formData.append(
@@ -16,14 +18,16 @@ function Upload() {
     );
     formData.append("file", document.getElementById("csvfile").files[0]);
     console.log(...formData);
-    fetch("http://localhost:5000/upload", {
-      method: "POST",
-      body: formData,
+    axios.post("http://localhost:5000/upload", formData, {
+      // onUploadProgress: (progress) => {
+      //   const percentage = Math.ceil(progress.loaded / progress.total) * 100
+      //   setProgress(percentage)
+      // }
     })
       .then((data) => data.json())
       .then((response) => {
-        setData((prev) => ({ ...prev, rows: response.data, page_no: 1 }));
         setLoading(false);
+        setData(response);
       })
       .catch((err) => {
         setData({
@@ -35,16 +39,19 @@ function Upload() {
   };
 
   return (
-    <div className="input-group">
-      <input type="file" className="form-control" name="file" id="csvfile" />
-      <button
-        className="btn btn-outline-secondary"
-        type="button"
-        onClick={handleUpload}
-      >
-        Upload
-      </button>
-    </div>
+    <>
+      <div className="input-group">
+        <input type="file" className="form-control" name="file" id="csvfile" />
+        <button
+          className="btn btn-outline-secondary"
+          type="button"
+          onClick={handleUpload}
+        >
+          Upload
+        </button>
+      </div>
+      
+    </>
   );
 }
 

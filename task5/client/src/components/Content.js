@@ -1,19 +1,21 @@
 import React, { useEffect } from "react";
-import Spinner from "./Spinner";
 import { useData } from "../contexts/dataContext";
 import { useLoading } from "../contexts/loadingContext";
 import Table from "./Table";
 import Pagination from "./Pagination";
-import Searching from "./Searching";
+import Bar from "./Bar";
+import Spinner from "./Spinner";
 import { useSort } from "../contexts/sortContext";
 
 function Content() {
   const { data, setData } = useData();
   const { loading, setLoading } = useLoading();
-  const {sort} = useSort()
+  const { sort } = useSort();
+  
+
+  console.log(loading);
 
   useEffect(() => {
-    setLoading(true);
     fetch("http://localhost:5000/page", {
       method: "POST",
       headers: {
@@ -21,31 +23,34 @@ function Content() {
       },
       body: JSON.stringify({
         page_no: 0,
-        sort : sort.sort,
-        search : sort.search
+        sort: sort.sort,
+        search: sort.search,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         setLoading(false);
         setData(data);
-      }).catch(err => {
-        console.log(err)
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
       });
-  }, [sort,setData,setLoading]);
+  }, [sort.sort, sort.search, setData, setLoading]);
 
   return (
     <>
+      <Bar />
+      {loading && (
+        <>
+        
+          <Spinner />
+        </>
+      )}
       {data.rows?.length > 0 ? (
         <>
-          {!loading ? (
-            <>
-              <Searching /><Table /> <Pagination />
-            </>
-          ) : (
-            <Spinner />
-          )}
+          <Table /> <Pagination />
         </>
       ) : (
         <h1>NO DATA</h1>
