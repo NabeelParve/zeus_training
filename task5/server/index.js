@@ -20,7 +20,7 @@ db.connect((err) => {
 app.use(express.json());
 
 app.get("/ping", (req, res) => {
-  res.send(200, "PONG!");
+  res.end(200, "PONG!");
 });
 
 app.use("/", routes);

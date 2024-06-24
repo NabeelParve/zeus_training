@@ -1,0 +1,47 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = myapi
+build_property.RootNamespace = myapi
+build_property.ProjectDir = D:\zeus_training\c sharp\myapi\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\zeus_training\c sharp\myapi
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/zeus_training/c sharp/myapi/Views/crud/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcY3J1ZFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/zeus_training/c sharp/myapi/Views/crud/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcY3J1ZFxEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/zeus_training/c sharp/myapi/Views/crud/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcY3J1ZFxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/zeus_training/c sharp/myapi/Views/crud/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcY3J1ZFxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/zeus_training/c sharp/myapi/Views/crud/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcY3J1ZFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
