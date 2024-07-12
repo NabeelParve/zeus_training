@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
+using MyApp.Models;
 
-namespace MyApp.Interfaces.User{
+namespace MyApp.Interfaces.UserInterface{
     public interface IUserInterface{
-        Task<ActionResult<List<string>>> GetUserByPageNo(int pageNo);
+        Task<(string?, List<User>?)> GetUserByPageNo(int pageNo);
 
-        Task<ActionResult<string>> GetUserByEmail(string email);
+        Task<(string? , User?)> GetUserByEmail(string email);
+
+        Task<(string?, User?)> GetUserById(int id);
 
         Task<ActionResult<int>> DeleteUserByEmail(string email);
 

@@ -12,18 +12,11 @@ namespace MyApp.Contexts
 
         public DbSet<User> User { get; set; } = null!;
         public DbSet<Salary> Salary { get; set; } = null!;
-        public DbSet<CsvFile> CsvFile { get; set; } = null!;
 
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-        //     modelBuilder.Entity<User>()
-        //         .HasMany(e => e.Salaries)
-        //         .WithOne(e => e.User)
-        //         .HasForeignKey(e => e.UserId);
-
-
-        //     modelBuilder.Entity<User>()
-        //         .Property<Salary[]>("Salaries");
-        // }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Salary>()
+                .HasKey(a => new { a.UserId, a.year });
+        }
     }
 }

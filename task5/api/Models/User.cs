@@ -1,8 +1,6 @@
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
-using Microsoft.EntityFrameworkCore;
+using System.Data;
+using FluentValidation;
 
 namespace MyApp.Models{
     public class User {
@@ -20,5 +18,9 @@ namespace MyApp.Models{
     public required string AddressLine1 { get; set; }
     public required string AddressLine2 { get; set; }
     public  required string DateOfBirth { get; set; }
+
+    public required Salary[] Salaries {get; set;}
     }
+
+
 }

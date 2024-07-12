@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyApp.Interfaces.Upload;
 
 
-namespace MyApp.Namespace
+namespace MyApp.Controllers
 {
     [Route("api/file")]
     [ApiController]

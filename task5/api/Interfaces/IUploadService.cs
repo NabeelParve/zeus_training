@@ -2,9 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MyApp.Interfaces.Upload{
     public interface IUploadService{
-        Task<ActionResult<string>> HandleUpload(IFormFile fileName);
-
-        Task<int> InsertData(IFormFile file);
+        Task<ActionResult> HandleUpload(IFormFile fileName);
     }
 
 }

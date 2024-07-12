@@ -21,46 +21,18 @@ namespace api.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("MyApp.Models.CsvFile", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<byte[]>("Content")
-                        .IsRequired()
-                        .HasColumnType("longblob");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("id");
-
-                    b.ToTable("CsvFile");
-                });
-
             modelBuilder.Entity("MyApp.Models.Salary", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("year")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<string>("year")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "year");
 
                     b.ToTable("Salary");
                 });
@@ -112,6 +84,20 @@ namespace api.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("MyApp.Models.Salary", b =>
+                {
+                    b.HasOne("MyApp.Models.User", null)
+                        .WithMany("Salaries")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MyApp.Models.User", b =>
+                {
+                    b.Navigation("Salaries");
                 });
 #pragma warning restore 612, 618
         }
