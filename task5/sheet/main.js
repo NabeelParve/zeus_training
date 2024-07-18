@@ -13,6 +13,7 @@ document.body.appendChild(canvas)
 const ctx = document.getElementById("canvas").getContext("2d")
 var colWidth = new Array(27)
 var rowHeight = new Array(100)
+const fontSize = 14;
 var header = new Header(ctx, 30, 0)  //context, rowHeight, yOffset
 var indexing = new Indexing(ctx, 30)   // context, colWidth, xOffset
 var grid = new Grid(ctx, 30, 30)   //context, xOffset, yOffset
@@ -23,14 +24,12 @@ colWidth[0] = 30
 ctx.font = "14px Arial"
 ctx.strokeStyle = "grey"
 ctx.fillStyle = "grey"
-ctx.textBaseline = "alphabetic"
-
-
+ctx.textBaseline = "middle"
+ctx.textAlign = "center"
 
 grid.display()
 header.display(window.scrollY)
 indexing.display()
-
 
 window.addEventListener('scroll', (event) => {
     if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
@@ -41,62 +40,69 @@ window.addEventListener('scroll', (event) => {
             console.log('Mouse wheel scrolled left inside the element.')
         }
     }
-    ctx.clearRect(0, 0, 3150, 4000)
-    grid.display()
-    header.display(window.scrollY)
-    indexing.display()
+    if (!grid.isSelecting) {
+        ctx.clearRect(0, 0, 3150, 4000)
+        grid.reDraw();
+        header.display(window.scrollY)
+        indexing.display()
+    }
 })
+
 window.addEventListener('wheel', (event) => {
     ctx.clearRect(0, 0, 3150, 4000)
-    grid.display()
+    grid.reDraw();
     header.display(window.scrollY)
     indexing.display()
 })
 
-canvas.addEventListener('click', (event) => {
+canvas.addEventListener("dblclick", (event) => {
     var rect = canvas.getBoundingClientRect()
+    const x = event.clientX - rect.left, y = event.clientY - rect.top
     ctx.clearRect(0, 0, 3150, 4000)
-    const x = event.clientX-rect.left, y = event.clientY - rect.top
-    grid.display()
-    grid.drawSelectedCell(x, y)
+    grid.reDraw();
+    grid.drawEditedCell(x, y)
     header.display(window.scrollY)
     indexing.display()
 })
 
-canvas.addEventListener('mousedown',()=>{
-    console.log("down")
+canvas.addEventListener('mousedown', (event) => {
+    var rect = canvas.getBoundingClientRect()
+    const x = event.clientX - rect.left, y = event.clientY - rect.top
+    grid.startSelection(x, y)
 })
 
-canvas.addEventListener('mousemove',()=>{
-    console.log("move");
+canvas.addEventListener('mousemove', (event) => {
+    var rect = canvas.getBoundingClientRect()
+    const x = event.clientX - rect.left, y = event.clientY - rect.top
+    grid.updateSelection(x, y)
+    ctx.clearRect(0, 0, 3150, 4000)
+    grid.reDraw()
+    header.display(window.scrollY)
+    indexing.display()
 })
 
-canvas.addEventListener('mouseup', ()=>{
-    console.log("up");
+canvas.addEventListener('mouseup', (event) => {
+    var rect = canvas.getBoundingClientRect()
+    const x = event.clientX - rect.left, y = event.clientY - rect.top
+    grid.endSelection(x, y)
+    ctx.clearRect(0, 0, 3150, 4000)
+    grid.reDraw()
+    header.display(window.scrollY)
+    indexing.display()
 })
 
-canvas.addEventListener('drag', () => {
-    console.log('drag event')
+window.addEventListener("keydown", (event) => {
+    var rect = canvas.getBoundingClientRect()
+    const x = event.pageX - rect.left, y = event.pageY - rect.top
+    grid.navigate(x, y, event.key)
+    ctx.clearRect(0, 0, 3150, 4000)
+    grid.reDraw()
+    header.display(window.scrollY)
+    indexing.display()
+    ctx.clearRect(0, 0, 3150, 4000)
+    grid.reDraw()
+    header.display(window.scrollY)
+    indexing.display()
 })
 
-canvas.addEventListener('dragend', () => {
-    console.log('dragend event')
-})
-
-canvas.addEventListener('dragenter', () => {
-    console.log('dragenter event')
-})
-
-canvas.addEventListener('dragleave', () => {
-    console.log('dragleave event')
-})
-
-canvas.addEventListener('dragover', () => {
-    console.log('dragover event')
-})
-
-canvas.addEventListener('dragstart', () => {
-    console.log('dragstart event')
-})
-
-export { colWidth, rowHeight }
+export { colWidth, rowHeight, fontSize }

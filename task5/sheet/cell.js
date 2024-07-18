@@ -1,7 +1,10 @@
 class Cell{
-    constructor(x, y){
-        this.x = x
-        this.y = y
+    constructor(xOffset, yOffset, height, width, text){
+        this.xOffset = xOffset
+        this.yOffset = yOffset
+        this.height = height
+        this.width = width
+        this.text = text
     }
 }
 

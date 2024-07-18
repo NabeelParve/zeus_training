@@ -10,8 +10,8 @@ class Indexing {
 
     display() {
         this.ctx.strokeStyle = "grey"
-        let yOffset = 0
-        let rowName = 0
+        let yOffset = 30
+        let rowName = 1
         for (let height of this.rowHeight) {
             this.ctx.strokeRect(0, yOffset, this.width, height)
             this.ctx.fillText(rowName === 0 ? "" : rowName, (this.width - 8) / 2, (2 * yOffset + height) / 2)
