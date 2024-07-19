@@ -23,11 +23,12 @@ class Grid {
             "ArrowRight": [0, 1],
             "ArrowDown": [1, 0]
         }
+        this.sum = 0
     }
 
 
     display() {
-        this.ctx.strokeStyle = "grey"
+        this.ctx.strokeStyle = "rgb(196,199,197)"
         let temp_xOffset = this.xOffset
         let temp_yOffset = this.yOffset
         // colWidth[1] = 300
@@ -37,7 +38,7 @@ class Grid {
             let height = rowHeight[i]
             for (let j = 1; j < colWidth.length; j++) {
                 let width = colWidth[j]
-                this.Table[i][j] = new Cell(temp_xOffset, temp_yOffset, height, width, temp_yOffset)
+                this.Table[i][j] = new Cell(temp_xOffset, temp_yOffset, height, width, "")
                 let cell = this.Table[i][j]
                 this.ctx.strokeRect(temp_xOffset, temp_yOffset, width, height)
                 this.ctx.fillText(this.helper.getWrapedText(cell.text, cell.width), (2 * cell.xOffset + width) / 2, (2 * cell.yOffset + height) / 2)
@@ -48,29 +49,39 @@ class Grid {
         }
     }
 
-    drawSelectedCell(i = -1, j = -1) {
+    drawSelectedCell(i = -1, j = -1, border=false) {
         if (i < 0 || j < 0) return
-        this.ctx.strokeStyle = "grey"
+        this.ctx.strokeStyle = "rgb(196,199,197)"
+        this.ctx.fillStyle = "rgba(0,120,215,0.3)"
         let cell = this.Table[i][j]
         this.ctx.fillRect(cell.xOffset + 1, cell.yOffset + 1, cell.width - 2, cell.height - 2)
+        if(border){
+            this.ctx.strokeStyle = "blue"
+            this.ctx.strokeRect(cell.xOffset, cell.yOffset, cell.width, cell.height)
+        }
         this.ctx.fillStyle = "white"
         this.ctx.strokeRect(cell.xOffset, cell.yOffset, cell.width, cell.height)
         this.ctx.fillText(this.helper.getWrapedText(cell.text, cell.width), (2 * cell.xOffset + cell.width) / 2, (2 * cell.yOffset + cell.height) / 2)
-        this.ctx.strokeStyle = "grey"
-        this.ctx.fillStyle = "grey"
+        this.ctx.strokeStyle = "rgb(196,199,197)"
+        this.ctx.fillStyle = "rgb(196,199,197)"
     }
 
     reDraw() {
-        this.ctx.strokeStyle = "grey"
+        this.ctx.strokeStyle = "rgb(196,199,197)"
         let temp_xOffset = this.xOffset
         let temp_yOffset = this.yOffset
+        let firstSelectedCell = true
+        this.sum = 0
         for (let i = 0; i < rowHeight.length; i++) {
             let height = rowHeight[i]
             for (let j = 1; j < colWidth.length; j++) {
                 let cell = this.Table[i][j];
                 let width = colWidth[j]
-                if (this.helper.isSelected(this.selectedStartX, this.selectedStartY, this.selectedEndX, this.selectedEndY, i, j) || (this.selectedCell[0]==i && this.selectedCell[1]==j)) {
-                    this.drawSelectedCell(i, j)
+                this.Table[i][j] = { ...cell, height: rowHeight[i], width: colWidth[j], xOffset: temp_xOffset, yOffset: temp_yOffset }
+                if (this.helper.isSelected(this.selectedStartX, this.selectedStartY, this.selectedEndX, this.selectedEndY, i, j) || (this.selectedCell[0] == i && this.selectedCell[1] == j)) {
+                    this.drawSelectedCell(i, j, firstSelectedCell)
+                    firstSelectedCell = false
+                    this.sum += Number(cell.text) ?  Number(cell.text) : 0
                 }
                 else {
                     this.ctx.strokeRect(cell.xOffset, cell.yOffset, width, height)
@@ -81,6 +92,7 @@ class Grid {
             temp_xOffset = 30
             temp_yOffset += height
         }
+        console.log(this.sum);
     }
 
     getPosition(x, y) {
@@ -94,6 +106,17 @@ class Grid {
         }
 
         return { i: -1, j: -1 }
+    }
+
+    getColumn(x) {
+        var temp = 0;
+        for (var j = 1; j < colWidth.length; j++) {
+            let height = rowHeight[j]
+            temp+=height
+            if (temp>= x) return j
+        }
+
+        return -1
     }
 
     drawEditedCell(x, y) {
@@ -151,7 +174,7 @@ class Grid {
     navigate(x = 0, y = 0, keyCode) {
         if (!this.isSelected) return
         console.log(this.selectedCell)
-        let i = this.selectedCell[0] , j = this.selectedCell[1]
+        let i = this.selectedCell[0], j = this.selectedCell[1]
         this.selectedCell[0] += this.navigationMap[keyCode][0]
         this.selectedCell[1] += this.navigationMap[keyCode][1]
         this.selectedStartX = this.selectedCell[0]
@@ -161,5 +184,32 @@ class Grid {
 
         console.log(this.selectedCell)
     }
+
+    selectColumn(x = 0, y = 0) {
+        let j = Math.floor((x-30)/130)
+        console.log(j)
+        if(j<0) return
+        let width = colWidth[j]
+        this.selectedStartX = 0
+        this.selectedStartY = j+1
+        this.selectedEndX = rowHeight.length
+        this.selectedEndY = j+1
+        this.selectedCell[0] = -1
+        this.selectedCell[1] = -1
+
+    }
+
+    // selectRow(x = 0, y = 0) {
+    //     let i = Math.floor((x-30)/30)
+    //     console.log(i)
+    //     if(i<0) return
+    //     this.selectedStartX = i
+    //     this.selectedStartY = 0
+    //     this.selectedEndX = i
+    //     this.selectedEndY = colWidth.length
+    //     this.selectedCell[0] = -1
+    //     this.selectedCell[1] = -1
+
+    // }
 }
 export { Grid }

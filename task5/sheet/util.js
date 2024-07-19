@@ -21,7 +21,7 @@ class Util {
         let textWidth = text.length * fontSize
         let wrappedText = text
         if (textWidth >= width) {
-            wrappedText = text.substring(0, width / fontSize)
+            wrappedText = text.substring(0, width / fontSize)+"..."
         }
         return wrappedText
     }
