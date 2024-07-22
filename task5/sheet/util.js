@@ -1,4 +1,4 @@
-import { fontSize } from "./main.js"
+import { colWidth, fontSize } from "./main.js"
 
 class Util {
     constructor() {
@@ -15,6 +15,15 @@ class Util {
         let startY = Math.min(y1,y2)
         let endY = y1+y2-startY
         return x >= startX && x <= endX && y >= startY && y <= endY;
+    }
+
+    isNearBorder(x = 0){
+        var current_width = 0
+        for(var i = 0; i < colWidth.length; i++){
+            current_width += colWidth[i]
+            if(Math.abs(current_width-x)<=3) return true
+        }
+        return false
     }
 
     getWrapedText(text, width) {

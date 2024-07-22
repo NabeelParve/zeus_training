@@ -16,6 +16,8 @@ class Grid {
         this.selectedEndX = -1
         this.isSelecting = false
         this.isSelected = false;
+        this.resizeStart = -1
+        this.resizeEnd = -1
         this.selectedCell = [-1, -1]
         this.navigationMap = {
             "ArrowUp": [-1, 0],
@@ -59,11 +61,10 @@ class Grid {
             this.ctx.strokeStyle = "blue"
             this.ctx.strokeRect(cell.xOffset, cell.yOffset, cell.width, cell.height)
         }
-        this.ctx.fillStyle = "white"
+        this.ctx.fillStyle = "black"
         this.ctx.strokeRect(cell.xOffset, cell.yOffset, cell.width, cell.height)
         this.ctx.fillText(this.helper.getWrapedText(cell.text, cell.width), (2 * cell.xOffset + cell.width) / 2, (2 * cell.yOffset + cell.height) / 2)
         this.ctx.strokeStyle = "rgb(196,199,197)"
-        this.ctx.fillStyle = "rgb(196,199,197)"
     }
 
     reDraw() {
@@ -92,7 +93,6 @@ class Grid {
             temp_xOffset = 30
             temp_yOffset += height
         }
-        console.log(this.sum);
     }
 
     getPosition(x, y) {
@@ -173,7 +173,6 @@ class Grid {
 
     navigate(x = 0, y = 0, keyCode) {
         if (!this.isSelected) return
-        console.log(this.selectedCell)
         let i = this.selectedCell[0], j = this.selectedCell[1]
         this.selectedCell[0] += this.navigationMap[keyCode][0]
         this.selectedCell[1] += this.navigationMap[keyCode][1]
@@ -181,13 +180,10 @@ class Grid {
         this.selectedStartY = this.selectedCell[1]
         this.selectedEndX = this.selectedCell[0]
         this.selectedEndY = this.selectedCell[1]
-
-        console.log(this.selectedCell)
     }
 
     selectColumn(x = 0, y = 0) {
         let j = Math.floor((x-30)/130)
-        console.log(j)
         if(j<0) return
         let width = colWidth[j]
         this.selectedStartX = 0
@@ -198,6 +194,22 @@ class Grid {
         this.selectedCell[1] = -1
 
     }
+
+    resizeColumnStart(j, x){
+        this.resizeStart = x
+    }
+    resizeColumnUpdate(j, x){
+        this.resizeEnd = x
+    }
+    resizeColumnEnd(j, x){
+        this.resizeEnd = x
+        colWidth[j] += Math.abs(this.resizeEnd-this.resizeStart)
+        this.isResizing = false;
+        this.resizeStart = -1
+        this.resizeEnd = -1
+    }
+
+
 
     // selectRow(x = 0, y = 0) {
     //     let i = Math.floor((x-30)/30)
