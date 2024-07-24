@@ -28,13 +28,10 @@ class Grid {
         this.sum = 0
     }
 
-
-    display() {
+    async display() {
         this.ctx.strokeStyle = "rgb(196,199,197)"
         let temp_xOffset = this.xOffset
         let temp_yOffset = this.yOffset
-        // colWidth[1] = 300
-        // rowHeight[0] = 300
         for (let i = 0; i < rowHeight.length; i++) {
             this.Table[i] = new Array(colWidth.length)
             let height = rowHeight[i]
@@ -49,15 +46,16 @@ class Grid {
             temp_xOffset = 30
             temp_yOffset += height
         }
+        await this.loadData()
     }
 
-    drawSelectedCell(i = -1, j = -1, border=false) {
+    drawSelectedCell(i = -1, j = -1, border = false) {
         if (i < 0 || j < 0) return
         this.ctx.strokeStyle = "rgb(196,199,197)"
         this.ctx.fillStyle = "rgba(0,120,215,0.3)"
         let cell = this.Table[i][j]
         this.ctx.fillRect(cell.xOffset + 1, cell.yOffset + 1, cell.width - 2, cell.height - 2)
-        if(border){
+        if (border) {
             this.ctx.strokeStyle = "blue"
             this.ctx.strokeRect(cell.xOffset, cell.yOffset, cell.width, cell.height)
         }
@@ -82,7 +80,7 @@ class Grid {
                 if (this.helper.isSelected(this.selectedStartX, this.selectedStartY, this.selectedEndX, this.selectedEndY, i, j) || (this.selectedCell[0] == i && this.selectedCell[1] == j)) {
                     this.drawSelectedCell(i, j, firstSelectedCell)
                     firstSelectedCell = false
-                    this.sum += Number(cell.text) ?  Number(cell.text) : 0
+                    this.sum += Number(cell.text) ? Number(cell.text) : 0
                 }
                 else {
                     this.ctx.strokeRect(cell.xOffset, cell.yOffset, width, height)
@@ -104,18 +102,16 @@ class Grid {
                 if (this.helper.contains(this.Table[i][j], x, y)) return { i, j }
             }
         }
-
         return { i: -1, j: -1 }
     }
 
     getColumn(x) {
-        var temp = 0;
+        var temp = colWidth[0];
         for (var j = 1; j < colWidth.length; j++) {
-            let height = rowHeight[j]
-            temp+=height
-            if (temp>= x) return j
+            let height = colWidth[j]
+            temp += height
+            if (temp >= x) return j-1
         }
-
         return -1
     }
 
@@ -141,7 +137,6 @@ class Grid {
             this.Table[i][j].text = input.value;
             document.body.removeChild(input);
         });
-
         document.body.appendChild(input);
         input.focus();
         input.select();
@@ -183,45 +178,74 @@ class Grid {
     }
 
     selectColumn(x = 0, y = 0) {
-        let j = Math.floor((x-30)/130)
-        if(j<0) return
+        let j = this.getColumn(x)
+        if (j < 0) return
         let width = colWidth[j]
         this.selectedStartX = 0
-        this.selectedStartY = j+1
+        this.selectedStartY = j + 1
         this.selectedEndX = rowHeight.length
-        this.selectedEndY = j+1
+        this.selectedEndY = j + 1
         this.selectedCell[0] = -1
         this.selectedCell[1] = -1
 
     }
 
-    resizeColumnStart(j, x){
+    drawVirtualLine(x) {
+        this.ctx.moveTo(x, 0);
+        this.ctx.lineTo(x, 1000);
+        this.ctx.stroke();
+    }
+
+    resizeColumnStart(x) {
+        this.isResizing = true
         this.resizeStart = x
     }
-    resizeColumnUpdate(j, x){
+
+    resizeColumnUpdate(x) {
         this.resizeEnd = x
     }
-    resizeColumnEnd(j, x){
+
+    resizeColumnEnd(x) {
         this.resizeEnd = x
-        colWidth[j] += Math.abs(this.resizeEnd-this.resizeStart)
+        let j = this.getColumn(this.resizeStart)
+        if (colWidth[j] + this.resizeEnd - this.resizeStart > 30)
+            colWidth[j] = colWidth[j] + this.resizeEnd - this.resizeStart
         this.isResizing = false;
         this.resizeStart = -1
         this.resizeEnd = -1
     }
 
+    async loadData() {
+        let url = "http://localhost:5088/api/user/0";
+        try {
+            const response = await fetch(url, {
+                method: "GET"
+            });
+            var data = await response.json();
+            data = data.data
+            console.log(data)
+            for (var i = 0; i < data.length; i++) {
+                var j = 1
+                this.Table[i][j++].text = data[i].userId
+                this.Table[i][j++].text = data[i].email
+                this.Table[i][j++].text = data[i].name
+                this.Table[i][j++].text = data[i].country
+                this.Table[i][j++].text = data[i].city
+                this.Table[i][j++].text = data[i].state
+                this.Table[i][j++].text = data[i].telephoneNumber
+                this.Table[i][j++].text = data[i].dateOfBirth
+                this.Table[i][j++].text = data[i].addressLine1
+                this.Table[i][j++].text = data[i].addressLine2
+                for (var salary of data[i].salaries) {
+                    this.Table[i][j++].text = salary.amount
+                }
 
-
-    // selectRow(x = 0, y = 0) {
-    //     let i = Math.floor((x-30)/30)
-    //     console.log(i)
-    //     if(i<0) return
-    //     this.selectedStartX = i
-    //     this.selectedStartY = 0
-    //     this.selectedEndX = i
-    //     this.selectedEndY = colWidth.length
-    //     this.selectedCell[0] = -1
-    //     this.selectedCell[1] = -1
-
-    // }
+            }
+            console.log(this.Table);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 }
 export { Grid }

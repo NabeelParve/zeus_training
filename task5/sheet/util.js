@@ -21,13 +21,13 @@ class Util {
         var current_width = 0
         for(var i = 0; i < colWidth.length; i++){
             current_width += colWidth[i]
-            if(Math.abs(current_width-x)<=3) return true
+            if(Math.abs(current_width-x)<=10) return true
         }
         return false
     }
 
     getWrapedText(text, width) {
-        let textWidth = text.length * fontSize
+        let textWidth = text?.length * fontSize | 1
         let wrappedText = text
         if (textWidth >= width) {
             wrappedText = text.substring(0, width / fontSize)+"..."

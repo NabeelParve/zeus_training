@@ -16,6 +16,7 @@ const ctx = document.getElementById("canvas").getContext("2d")
 var colWidth = new Array(29)
 var rowHeight = new Array(100)
 const fontSize = 14;
+var rect = canvas.getBoundingClientRect()
 var helper = new Util()
 var header = new Header(ctx, 30, 0)  //context, rowHeight, yOffset
 var indexing = new Indexing(ctx, 30)   // context, colWidth, xOffset
@@ -51,7 +52,6 @@ window.addEventListener('wheel', (event) => {
 })
 
 canvas.addEventListener("dblclick", (event) => {
-    var rect = canvas.getBoundingClientRect()
     const x = event.clientX - rect.left, y = event.clientY - rect.top
     ctx.clearRect(0, 0, 3150, 4000)
     grid.reDraw();
@@ -62,10 +62,13 @@ canvas.addEventListener("dblclick", (event) => {
 
 canvas.addEventListener('mousedown', (event) => {
     if (event.clientY < 30) {
-        var rect = canvas.getBoundingClientRect()
-        if(helper.isNearBorder(event.clientX)){
-            const j = grid.getColumn(event.clientX)
-            grid.resizeColumn(j, event.clientX)
+        if (helper.isNearBorder(event.clientX-rect.left)) {
+            canvas.style.cursor = "col-resize"
+            grid.resizeColumnStart(event.clientX-rect.left)
+            ctx.clearRect(0, 0, 3150, 4000)
+            grid.reDraw()
+            header.display(window.scrollY - 8)
+            indexing.display()
         }
         grid.selectColumn(event.clientX - rect.left, event.clientY - rect.top)
         ctx.clearRect(0, 0, 3150, 4000)
@@ -74,15 +77,21 @@ canvas.addEventListener('mousedown', (event) => {
         indexing.display()
     }
     else {
-        var rect = canvas.getBoundingClientRect()
         const x = event.clientX - rect.left, y = event.clientY - rect.top
         grid.startSelection(x, y)
     }
 })
 
 canvas.addEventListener('mousemove', (event) => {
+    if (grid.isResizing) {
+        grid.resizeColumnUpdate(event.clientX-rect.left)
+        ctx.clearRect(0, 0, 3150, 4000)
+        grid.reDraw()
+        header.display(window.scrollY - 8)
+        indexing.display()
+        // grid.drawVirtualLine(event.clientX)
+    }
     if (grid.isSelecting) {
-        var rect = canvas.getBoundingClientRect()
         const x = event.clientX - rect.left, y = event.clientY - rect.top
         grid.updateSelection(x, y)
         ctx.clearRect(0, 0, 3150, 4000)
@@ -93,8 +102,15 @@ canvas.addEventListener('mousemove', (event) => {
 })
 
 canvas.addEventListener('mouseup', (event) => {
+    if (grid.isResizing) {
+        grid.resizeColumnEnd(event.clientX-rect.left)
+        ctx.clearRect(0, 0, 3150, 4000)
+        grid.reDraw()
+        header.display(window.scrollY - 8)
+        indexing.display()
+        canvas.style.cursor = "default"
+    }
     if (event.clientY < 30) {
-        var rect = canvas.getBoundingClientRect()
         grid.selectColumn(event.clientX - rect.left, event.clientY - rect.top)
         ctx.clearRect(0, 0, 3150, 4000)
         grid.reDraw()
@@ -102,7 +118,6 @@ canvas.addEventListener('mouseup', (event) => {
         indexing.display()
     }
     else {
-        var rect = canvas.getBoundingClientRect()
         const x = event.clientX - rect.left, y = event.clientY - rect.top
         grid.endSelection(x, y)
         ctx.clearRect(0, 0, 3150, 4000)
@@ -113,13 +128,14 @@ canvas.addEventListener('mouseup', (event) => {
 })
 
 window.addEventListener("keydown", (event) => {
-    var rect = canvas.getBoundingClientRect()
     let x = event.pageX - rect.left, y = event.pageY - rect.top
-        grid.navigate(x, y, event.key)
-        ctx.clearRect(0, 0, 3150, 4000)
-        grid.reDraw()
-        header.display(window.scrollY)
-        indexing.display()
+    grid.navigate(x, y, event.key)
+    ctx.clearRect(0, 0, 3150, 4000)
+    grid.reDraw()
+    header.display(window.scrollY)
+    indexing.display()
 })
+
+window.addEventListener('load',grid.loadData)
 
 export { colWidth, rowHeight, fontSize }
