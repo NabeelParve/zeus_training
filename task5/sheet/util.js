@@ -1,12 +1,12 @@
-import { colWidth, fontSize } from "./main.js"
+import { colWidth, fontSize, indexingWidth } from "./main.js"
 
 class Util {
     constructor() {
 
     }
 
-    contains(cell, x, y) {
-        return (cell.xOffset <= x) && (cell.yOffset <= y) && (cell.xOffset + cell.width >= x) && (cell.yOffset + cell.height >= y)
+    contains(xOffset, yOffset,width, height, x, y) {
+        return (xOffset <= x) && (yOffset <= y) && (xOffset + width >= x) && (yOffset + height >= y)
     }
 
     isSelected(x1, y1, x2, y2, x, y) {
@@ -18,15 +18,16 @@ class Util {
     }
 
     isNearBorder(x = 0){
-        var current_width = 0
+        var current_width = indexingWidth
         for(var i = 0; i < colWidth.length; i++){
             current_width += colWidth[i]
-            if(Math.abs(current_width-x)<=10) return true
+            if(Math.abs(current_width-x)<=5) return true
         }
         return false
     }
 
     getWrapedText(text, width) {
+        if(text===undefined) return ""
         let textWidth = text?.length * fontSize | 1
         let wrappedText = text
         if (textWidth >= width) {

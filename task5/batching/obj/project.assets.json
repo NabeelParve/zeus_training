@@ -1735,11 +1735,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\zeus_training\\task5\\batching\\batching.csproj",
+      "projectUniqueName": "D:\\zeus_training\\task5\\batching\\batching.csproj",
       "projectName": "batching",
-      "projectPath": "d:\\zeus_training\\task5\\batching\\batching.csproj",
+      "projectPath": "D:\\zeus_training\\task5\\batching\\batching.csproj",
       "packagesPath": "C:\\Users\\nabeel.parve\\.nuget\\packages\\",
-      "outputPath": "d:\\zeus_training\\task5\\batching\\obj\\",
+      "outputPath": "D:\\zeus_training\\task5\\batching\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nabeel.parve\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1820,7 +1820,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

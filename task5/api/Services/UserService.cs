@@ -107,7 +107,7 @@ namespace MyApp.Services.UserService
                 using var connection = await _database.OpenConnectionAsync();
                 using var command = connection.CreateCommand();
                 int Offset = pageNo * 20;
-                command.CommandText = @"SELECT * from user limit 20 offset @Offset";
+                command.CommandText = @"SELECT * from user limit 200 offset @Offset";
                 command.Parameters.AddWithValue("@Offset", Offset);
                 var reader = await command.ExecuteReaderAsync();
 
